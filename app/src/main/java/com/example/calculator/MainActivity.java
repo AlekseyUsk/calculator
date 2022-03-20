@@ -13,8 +13,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    protected boolean isNew = true;
-    String oldNumber;
+    boolean isNew = true;
+    protected String operator;
+    protected String oldNumber;
+    protected String number;
 
 
     protected TextView textView;
@@ -73,10 +75,11 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isNew) textView.setText(""); //убрал ноль вначале ввода
+
+                if (isNew)
+                    textView.setText(""); //убрал ноль вначале ввода
                 isNew = false;
                 String number = textView.getText().toString();
-
 
                 switch (view.getId()) {
                     case R.id.zero:
@@ -119,33 +122,19 @@ public class MainActivity extends AppCompatActivity {
                         number = number + "9";
                         Log.d(TAG, "НАЖАТА КНОПКА 9");
                         break;
-                    case R.id.sum:
-                        textView.setText("+");
-                        Log.d(TAG, "НАЖАТА КНОПКА +");
-                        break;
-                    case R.id.division:
-                        textView.setText("0");
-                        Log.d(TAG, "НАЖАТА КНОПКА ДЕЛЕНИЕ");
-                        break;
-                    case R.id.multiply:
-                        textView.setText("0");
-                        Log.d(TAG, "НАЖАТА КНОПКА *");
-                        break;
-                    case R.id.result:
-                        textView.setText("0");
-                        Log.d(TAG, "НАЖАТА КНОПКА =");
-                        break;
-                    case R.id.cha:
-                        textView.setText("0");
-                        Log.d(TAG, "НАЖАТА КНОПКА ,");
-                        break;
-                    case R.id.min:
-                        textView.setText("0");
-                        Log.d(TAG, "НАЖАТА КНОПКА -");
-                        break;
                     case R.id.del:
                         number = null;
                         Log.d(TAG, "НАЖАТА КНОПКА стереть С");
+                        break;
+                    case R.id.min:
+                        number = "-" + number;
+                        operator = "-";
+                        Log.d(TAG, "НАЖАТА КНОПКА -");
+                        break;
+                    case R.id.cha:
+                        number = number + ".";
+                        operator = ".";
+                        Log.d(TAG, "НАЖАТА КНОПКА ,");
                         break;
                 }
                 textView.setText(number);
@@ -172,5 +161,47 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    View.OnClickListener ActionClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            isNew = true;
+            oldNumber = textView.getText().toString();
+            switch (view.getId()) {
+                case R.id.sum:
+                    operator = "+";
+                    Log.d(TAG, "НАЖАТА КНОПКА +");
+                    break;
+                case R.id.division:
+                    operator = "/";
+                    Log.d(TAG, "НАЖАТА КНОПКА ДЕЛЕНИЕ");
+                    break;
+                case R.id.multiply:
+                    operator = "*";
+                    Log.d(TAG, "НАЖАТА КНОПКА *");
+                    break;
+                case R.id.result:
+                    operator = "=";
+                    Log.d(TAG, "НАЖАТА КНОПКА =");
+                    break;
+                case R.id.cha:
+                    operator = ".";
+                    Log.d(TAG, "НАЖАТА КНОПКА ,");
+                    break;
+                case R.id.min:
+                    operator = "-";
+                    Log.d(TAG, "НАЖАТА КНОПКА -");
+                    break;
+                case R.id.del:
+                    number = null;
+                    Log.d(TAG, "НАЖАТА КНОПКА стереть С");
+                    break;
+
+            }
+
+
+        }
+
+    };
 
 }
+
