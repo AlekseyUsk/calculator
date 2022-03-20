@@ -1,9 +1,14 @@
 package com.example.calculator;
 
 
+import android.view.View;
+
 public class CalculatorModel {
 
-    public void OnClickButton(InputSymbol inputSymbol) {
+    protected String operator;
+
+    protected void Logic(View view) {
+
 
     }
 }

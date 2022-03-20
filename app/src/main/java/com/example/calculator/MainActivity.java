@@ -12,24 +12,30 @@ import android.widget.TextView;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    TextView textView;
-    Button zero;
-    Button one;
-    Button two;
-    Button three;
-    Button four;
-    Button five;
-    Button six;
-    Button seven;
-    Button eight;
-    Button nine;
-    Button sum;
-    Button division;
-    Button multiply;
-    Button result;
-    Button cha;
-    Button min;
-    Button del;
+
+    protected boolean isNew = true;
+    String oldNumber;
+
+
+    protected TextView textView;
+
+    protected Button zero;
+    protected Button one;
+    protected Button two;
+    protected Button three;
+    protected Button four;
+    protected Button five;
+    protected Button six;
+    protected Button seven;
+    protected Button eight;
+    protected Button nine;
+    protected Button sum;
+    protected Button division;
+    protected Button multiply;
+    protected Button result;
+    protected Button cha;
+    protected Button min;
+    protected Button del;
 
     public static final String TAG = "myLog";
 
@@ -43,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         calculatorModel = new CalculatorModel();
 
         TextView textView = findViewById(R.id.textView);
+
         Button zero = findViewById(R.id.zero);
         Button one = findViewById(R.id.one);
         Button two = findViewById(R.id.two);
@@ -66,45 +73,50 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (isNew) textView.setText(""); //убрал ноль вначале ввода
+                isNew = false;
+                String number = textView.getText().toString();
+
+
                 switch (view.getId()) {
                     case R.id.zero:
-                        textView.setText(R.string.key_0);
+                        number = number + "0";
                         Log.d(TAG, "НАЖАТА КНОПКА 0");
                         break;
                     case R.id.one:
-                        textView.setText(R.string.key_1);
+                        number = number + "1";
                         Log.d(TAG, "НАЖАТА КНОПКА 1");
                         break;
                     case R.id.two:
-                        textView.setText(R.string.key_2);
+                        number = number + "2";
                         Log.d(TAG, "НАЖАТА КНОПКА 2");
                         break;
                     case R.id.three:
-                        textView.setText(R.string.key_3);
+                        number = number + "3";
                         Log.d(TAG, "НАЖАТА КНОПКА 3");
                         break;
                     case R.id.four:
-                        textView.setText("4");
+                        number = number + "4";
                         Log.d(TAG, "НАЖАТА КНОПКА 4");
                         break;
                     case R.id.five:
-                        textView.setText("5");
+                        number = number + "5";
                         Log.d(TAG, "НАЖАТА КНОПКА 5");
                         break;
                     case R.id.six:
-                        textView.setText("6");
+                        number = number + "6";
                         Log.d(TAG, "НАЖАТА КНОПКА 6");
                         break;
                     case R.id.seven:
-                        textView.setText("7");
+                        number = number + "7";
                         Log.d(TAG, "НАЖАТА КНОПКА 7");
                         break;
                     case R.id.eight:
-                        textView.setText("8");
+                        number = number + "8";
                         Log.d(TAG, "НАЖАТА КНОПКА 8");
                         break;
                     case R.id.nine:
-                        textView.setText("9");
+                        number = number + "9";
                         Log.d(TAG, "НАЖАТА КНОПКА 9");
                         break;
                     case R.id.sum:
@@ -132,10 +144,11 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "НАЖАТА КНОПКА -");
                         break;
                     case R.id.del:
-                        textView.setText("0");
+                        number = null;
                         Log.d(TAG, "НАЖАТА КНОПКА стереть С");
                         break;
                 }
+                textView.setText(number);
             }
         };
         zero.setOnClickListener(onClickListener);
