@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.List;
@@ -14,10 +15,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     boolean isNew = true;
-    protected String operator;
-    protected String oldNumber;
-    protected String number;
-
+    public String operator;
+    public String oldNumber;
+    public String number;
 
     protected TextView textView;
 
@@ -39,16 +39,15 @@ public class MainActivity extends AppCompatActivity {
     protected Button min;
     protected Button del;
 
+
     public static final String TAG = "myLog";
 
-    private CalculatorModel calculatorModel;//потом на старте в OnCreate ее присвоил
+    private CalculatorModel calculator;//потом на старте в OnCreate ее присвоил
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        calculatorModel = new CalculatorModel();
 
         TextView textView = findViewById(R.id.textView);
 
@@ -70,9 +69,12 @@ public class MainActivity extends AppCompatActivity {
         Button cha = findViewById(R.id.cha);            //дробные " , "
         Button min = findViewById(R.id.min);            //вычитание
         Button del = findViewById(R.id.del);            //стереть
+        Button minplus = findViewById(R.id.minusplus);  //минус плюс
 
 
-        View.OnClickListener onClickListener = new View.OnClickListener() {
+        calculator = new CalculatorModel();
+
+        View.OnClickListener numberButtonClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -126,82 +128,71 @@ public class MainActivity extends AppCompatActivity {
                         number = null;
                         Log.d(TAG, "НАЖАТА КНОПКА стереть С");
                         break;
-                    case R.id.min:
+                    case R.id.minusplus:
                         number = "-" + number;
-                        operator = "-";
-                        Log.d(TAG, "НАЖАТА КНОПКА -");
-                        break;
-                    case R.id.cha:
-                        number = number + ".";
-                        operator = ".";
-                        Log.d(TAG, "НАЖАТА КНОПКА ,");
+                        Log.d(TAG, "НАЖАТА КНОПКА +/-");
                         break;
                 }
                 textView.setText(number);
             }
         };
-        zero.setOnClickListener(onClickListener);
-        one.setOnClickListener(onClickListener);
-        two.setOnClickListener(onClickListener);
-        three.setOnClickListener(onClickListener);
-        four.setOnClickListener(onClickListener);
-        five.setOnClickListener(onClickListener);
-        six.setOnClickListener(onClickListener);
-        seven.setOnClickListener(onClickListener);
-        eight.setOnClickListener(onClickListener);
-        nine.setOnClickListener(onClickListener);
-        sum.setOnClickListener(onClickListener);
-        division.setOnClickListener(onClickListener);
-        multiply.setOnClickListener(onClickListener);
-        result.setOnClickListener(onClickListener);
-        cha.setOnClickListener(onClickListener);
-        min.setOnClickListener(onClickListener);
-        del.setOnClickListener(onClickListener);
+        View.OnClickListener actionClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isNew = true;
+                oldNumber = number;
+                switch (view.getId()) {
+                    case R.id.sum:
+                        operator = "+";
+                        Log.d(TAG, "НАЖАТА КНОПКА +");
+                        break;
+                    case R.id.division:
+                        operator = "/";
+                        Log.d(TAG, "НАЖАТА КНОПКА ДЕЛЕНИЕ");
+                        break;
+                    case R.id.multiply:
+                        operator = "*";
+                        Log.d(TAG, "НАЖАТА КНОПКА *");
+                        break;
+                    case R.id.result:
+                        operator = "=";
+                        Log.d(TAG, "НАЖАТА КНОПКА =");
+                        break;
+                    case R.id.cha:
+                        operator = ".";
+                        Log.d(TAG, "НАЖАТА КНОПКА ,");
+                        break;
+                    case R.id.min:
+                        operator = "-";
+                        Log.d(TAG, "НАЖАТА КНОПКА -");
+                        break;
+                    case R.id.del:
+                        operator = null;
+                        Log.d(TAG, "НАЖАТА КНОПКА стереть С");
+                        break;
+                }
+                textView.setText(operator);
+            }
+        };
 
+        zero.setOnClickListener(numberButtonClickListener);
+        one.setOnClickListener(numberButtonClickListener);
+        two.setOnClickListener(numberButtonClickListener);
+        three.setOnClickListener(numberButtonClickListener);
+        four.setOnClickListener(numberButtonClickListener);
+        five.setOnClickListener(numberButtonClickListener);
+        six.setOnClickListener(numberButtonClickListener);
+        seven.setOnClickListener(numberButtonClickListener);
+        eight.setOnClickListener(numberButtonClickListener);
+        nine.setOnClickListener(numberButtonClickListener);
+        sum.setOnClickListener(actionClickListener);
+        division.setOnClickListener(actionClickListener);
+        multiply.setOnClickListener(actionClickListener);
+        result.setOnClickListener(actionClickListener);
+        cha.setOnClickListener(actionClickListener);
+        min.setOnClickListener(actionClickListener);
+        del.setOnClickListener(actionClickListener);
+        minplus.setOnClickListener(actionClickListener);
 
     }
-
-    View.OnClickListener ActionClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            isNew = true;
-            oldNumber = textView.getText().toString();
-            switch (view.getId()) {
-                case R.id.sum:
-                    operator = "+";
-                    Log.d(TAG, "НАЖАТА КНОПКА +");
-                    break;
-                case R.id.division:
-                    operator = "/";
-                    Log.d(TAG, "НАЖАТА КНОПКА ДЕЛЕНИЕ");
-                    break;
-                case R.id.multiply:
-                    operator = "*";
-                    Log.d(TAG, "НАЖАТА КНОПКА *");
-                    break;
-                case R.id.result:
-                    operator = "=";
-                    Log.d(TAG, "НАЖАТА КНОПКА =");
-                    break;
-                case R.id.cha:
-                    operator = ".";
-                    Log.d(TAG, "НАЖАТА КНОПКА ,");
-                    break;
-                case R.id.min:
-                    operator = "-";
-                    Log.d(TAG, "НАЖАТА КНОПКА -");
-                    break;
-                case R.id.del:
-                    number = null;
-                    Log.d(TAG, "НАЖАТА КНОПКА стереть С");
-                    break;
-
-            }
-
-
-        }
-
-    };
-
 }
-
