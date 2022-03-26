@@ -16,12 +16,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements Serializable {
 
+    public static final String TAG = "myLog";
     private static String OLDNUBER = "oldNumber";
-
-    boolean isNew = true;
-    public String operator;
-    public String oldNumber;
-    public String number;
+    protected String operator;
+    protected String oldNumber; // первые числа или число для вычисления
+    protected String number;    // числа при нажатии кнопок
 
     protected TextView textView;
 
@@ -42,23 +41,17 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     protected Button cha;
     protected Button min;
     protected Button del;
-
-
-    public static final String TAG = "myLog";
-
-    private CalculatorModel calculator;
+    boolean isNew = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-       // calculator = new CalculatorModel();
-
+        
         if (savedInstanceState != null) {
-           OLDNUBER = (String) savedInstanceState.getSerializable(oldNumber);
+            oldNumber = (String) savedInstanceState.getSerializable(OLDNUBER);
         }
-       // showResult();
+
 
         TextView textView = findViewById(R.id.textView);
 
@@ -91,10 +84,11 @@ public class MainActivity extends AppCompatActivity implements Serializable {
                 if (isNew)
                     textView.setText(""); //убрал ноль вначале ввода
                 isNew = false;
-                 number = textView.getText().toString();
+
+                number = textView.getText().toString();
                 switch (view.getId()) {
                     case R.id.zero:
-                       number = number + "0";
+                        number = number + "0";
                         Log.d(TAG, "НАЖАТА КНОПКА 0");
                         break;
                     case R.id.one:
@@ -142,8 +136,9 @@ public class MainActivity extends AppCompatActivity implements Serializable {
                         Log.d(TAG, "НАЖАТА КНОПКА +/-");
                         break;
                 }
-                oldNumber = number;
+                oldNumber = number; // В oldNumber записываю нажатые цифры
                 textView.setText(oldNumber);
+
             }
         };
 
@@ -209,9 +204,19 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable(OLDNUBER,oldNumber);
+        Log.d(TAG, "onSaveInstanceState: СОХРАНЕНИЕ");
     }
-  //  private void showResult(){
-   //     textView.setText(String.valueOf(OLDNUBER));
-   // }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.d(TAG,"onRestoreInstanceState");
+
+
+    }
+// тут думал метод сделать для вывода информации
+    private void showResult() {
+        //  textView.
+    }
 
 }

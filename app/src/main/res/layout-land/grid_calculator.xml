@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:layout_marginBottom="@dimen/calcMarginBottom"
+    android:background="@color/teal_700"
+    android:columnCount="4"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/calcPaddingStart"
+    tools:context=".MainActivity">
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:text="@string/key_0"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_columnSpan="4"
+        android:layout_marginBottom="@dimen/textViewMarginBottom"
+        android:fontFamily="@font/animeace2_ital"
+        android:textSize="@dimen/textSize" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/one"
+        style="@style/ButtonCalc"
+        android:text="@string/key_1" />
+
+    <Button
+        android:id="@+id/two"
+        style="@style/ButtonCalc"
+        android:text="@string/key_2" />
+
+    <Button
+        android:id="@+id/three"
+        style="@style/ButtonCalc"
+        android:text="@string/key_3" />
+
+    <Button
+        android:id="@+id/division"
+        style="@style/ButtonCalcAction"
+        android:text="|" />
+
+    <Button
+        android:id="@+id/four"
+        style="@style/ButtonCalc"
+        android:text="@string/key_4" />
+
+    <Button
+        android:id="@+id/five"
+        style="@style/ButtonCalc"
+        android:text="@string/key_5" />
+
+    <Button
+        android:id="@+id/six"
+        style="@style/ButtonCalc"
+        android:text="@string/key_6" />
+
+    <Button
+        android:id="@+id/multiply"
+        style="@style/ButtonCalcAction"
+        android:text="@string/key_mult" />
+
+    <Button
+        android:id="@+id/seven"
+        style="@style/ButtonCalc"
+        android:text="@string/key_7" />
+
+    <Button
+        android:id="@+id/eight"
+        style="@style/ButtonCalc"
+        android:text="@string/key_8" />
+
+    <Button
+        android:id="@+id/nine"
+        style="@style/ButtonCalc"
+        android:text="@string/key_9" />
+
+    <Button
+        android:id="@+id/sum"
+        style="@style/ButtonCalcAction"
+        android:text="@string/key_plus" />
+
+    <Button
+        android:id="@+id/zero"
+        style="@style/ButtonCalc"
+        android:text="@string/key_0" />
+
+    <Button
+        android:id="@+id/cha"
+        style="@style/ButtonCalcAction"
+        android:text="@string/key_cha" />
+
+    <Button
+        android:id="@+id/min"
+        style="@style/ButtonCalcAction"
+        android:text="@string/key_min"
+        tools:ignore="OnClick" />
+
+    <Button
+        android:id="@+id/del"
+        style="@style/ButtonCalcAction"
+        android:text="@string/key_del" />
+
+
+    <Button
+        android:id="@+id/result"
+        style="@style/ButtonResult"
+        android:layout_columnSpan="3"
+        android:text="@string/key_res"
+        android:textSize="@dimen/buttonSize" />
+    <Button
+        android:id="@+id/minusplus"
+        android:text="-/+"/>
+
+
+</GridLayout>
