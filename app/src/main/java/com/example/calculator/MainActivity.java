@@ -1,5 +1,6 @@
 package com.example.calculator;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -10,9 +11,12 @@ import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Serializable {
+
+    private static String OLDNUBER = "oldNumber";
 
     boolean isNew = true;
     public String operator;
@@ -42,12 +46,19 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "myLog";
 
-    private CalculatorModel calculator;//потом на старте в OnCreate ее присвоил
+    private CalculatorModel calculator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+       // calculator = new CalculatorModel();
+
+        if (savedInstanceState != null) {
+           OLDNUBER = (String) savedInstanceState.getSerializable(oldNumber);
+        }
+       // showResult();
 
         TextView textView = findViewById(R.id.textView);
 
@@ -72,20 +83,18 @@ public class MainActivity extends AppCompatActivity {
         Button minplus = findViewById(R.id.minusplus);  //минус плюс
 
 
-        calculator = new CalculatorModel();
-
         View.OnClickListener numberButtonClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+
                 if (isNew)
                     textView.setText(""); //убрал ноль вначале ввода
                 isNew = false;
-                String number = textView.getText().toString();
-
+                 number = textView.getText().toString();
                 switch (view.getId()) {
                     case R.id.zero:
-                        number = number + "0";
+                       number = number + "0";
                         Log.d(TAG, "НАЖАТА КНОПКА 0");
                         break;
                     case R.id.one:
@@ -133,14 +142,16 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "НАЖАТА КНОПКА +/-");
                         break;
                 }
-                textView.setText(number);
+                oldNumber = number;
+                textView.setText(oldNumber);
             }
         };
+
         View.OnClickListener actionClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 isNew = true;
-                oldNumber = number;
+
                 switch (view.getId()) {
                     case R.id.sum:
                         operator = "+";
@@ -174,7 +185,6 @@ public class MainActivity extends AppCompatActivity {
                 textView.setText(operator);
             }
         };
-
         zero.setOnClickListener(numberButtonClickListener);
         one.setOnClickListener(numberButtonClickListener);
         two.setOnClickListener(numberButtonClickListener);
@@ -193,6 +203,15 @@ public class MainActivity extends AppCompatActivity {
         min.setOnClickListener(actionClickListener);
         del.setOnClickListener(actionClickListener);
         minplus.setOnClickListener(actionClickListener);
-
     }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(OLDNUBER,oldNumber);
+    }
+  //  private void showResult(){
+   //     textView.setText(String.valueOf(OLDNUBER));
+   // }
+
 }

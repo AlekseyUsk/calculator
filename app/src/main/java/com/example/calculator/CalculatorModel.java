@@ -1,8 +1,10 @@
 package com.example.calculator;
 
-public class CalculatorModel {
 
+import android.widget.TextView;
 
+import java.io.Serializable;
 
+public class CalculatorModel implements Serializable {
 
 }
