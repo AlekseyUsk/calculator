@@ -4,17 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@color/black">
+    android:background="@color/black"
+    tools:context=".MainActivity">
 
-  <ImageView
-      android:background="@drawable/googleplay"
-      android:layout_height="wrap_content"
-      android:layout_width="wrap_content"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/googleplay" />
 
-<include
-    layout="@layout/grid_calculator"/>
-
+    <include layout="@layout/grid_calculator" />
 
 
 </FrameLayout>
