@@ -16,5 +16,5 @@
     <dimen name="cornerRadius">30dp</dimen>
     <dimen name="calcMarginBottom">34dp</dimen>
     <dimen name="calcPaddingStart">40dp</dimen>
-    <dimen name="textViewMarginBottom">30dp</dimen>
+    <dimen name="textViewMarginBottom">7dp</dimen>
 </resources>

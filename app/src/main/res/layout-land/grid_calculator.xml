@@ -15,12 +15,12 @@
 
     <TextView
         android:id="@+id/textView"
+        android:text="@string/key_0"
         android:layout_width="300dp"
         android:layout_height="45dp"
         android:layout_columnSpan="4"
         android:layout_marginBottom="@dimen/textViewMarginBottom"
         android:fontFamily="@font/animeace2_ital"
-        android:text="@string/key_0"
         android:textSize="@dimen/textSize" />
 
 
@@ -112,10 +112,9 @@
         android:layout_columnSpan="3"
         android:text="@string/key_res"
         android:textSize="@dimen/buttonSize" />
-
     <Button
         android:id="@+id/minusplus"
-        android:text="-/+" />
+        android:text="-/+"/>
 
 
 </GridLayout>
