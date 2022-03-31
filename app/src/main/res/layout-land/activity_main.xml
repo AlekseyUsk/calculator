@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="bottom"
+    android:layout_gravity="center_horizontal"
     android:layout_marginBottom="@dimen/calcMarginBottom"
     android:background="@color/teal_700"
     android:columnCount="8"
@@ -14,10 +14,10 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="300dp"
-        android:layout_height="45dp"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/texthLand"
         android:layout_columnSpan="8"
-        android:layout_marginBottom="@dimen/textViewMarginBottom"
+        android:layout_marginTop="@dimen/textMarginTop"
         android:fontFamily="@font/animeace2_ital"
         android:text="@string/key_0"
         android:textSize="@dimen/textSize" />
@@ -72,6 +72,7 @@
 
 
     <Button
+        android:padding="@dimen/btnpadding"
         android:id="@+id/zero"
         style="@style/ButtonCalc"
         android:text="@string/key_0" />
@@ -99,18 +100,6 @@
         style="@style/ButtonCalcAction"
         android:text="|" />
 
-
-    <Button
-        android:id="@+id/result"
-        style="@style/ButtonResult"
-        android:layout_columnSpan="3"
-        android:text="@string/key_res"
-        android:textSize="@dimen/buttonSize" />
-
-    <Button
-        android:id="@+id/minusplus"
-        android:text="-/+" />
-
     <Button
         android:id="@+id/cha"
         style="@style/ButtonCalcAction"
@@ -120,6 +109,17 @@
         android:id="@+id/del"
         style="@style/ButtonCalcAction"
         android:text="@string/key_del" />
+
+
+    <Button
+        android:id="@+id/result"
+        style="@style/ButtonResult"
+        android:layout_columnSpan="7"
+        android:text="@string/key_res" />
+
+    <Button
+        android:id="@+id/minusplus"
+        android:text="-/+" />
 
 
 </GridLayout>

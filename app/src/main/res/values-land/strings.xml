@@ -1,6 +1,5 @@
-
-<resources>
-    <string name="app_name">My Application</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources><string name="app_name">My Application</string>
     <string name="key_1">1</string>
     <string name="key_2">2</string>
     <string name="key_3">3</string>
@@ -19,7 +18,4 @@
     <string name="key_res">=</string>
     <string name="key_del">C</string>
     <string name="key_minusPlus">-</string>
-    <string name="item1">Item 1</string>
-    <string name="item2">item 2</string>
-    <string name="settings">settings</string>
 </resources>

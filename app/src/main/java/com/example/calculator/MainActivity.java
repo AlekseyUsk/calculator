@@ -1,14 +1,18 @@
 package com.example.calculator;
 
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.List;
@@ -41,13 +45,36 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     protected Button del;
     boolean isNew = true;// переменная чтобы убрать ввод 0 при начальном вводе
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);//внутри метод getMenuInflater() который создает или раздувает наше меню из ресурсов
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item1:
+                Toast.makeText(getApplicationContext(), "Выбрана тема 1", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "НАЖАТИЕ НА item1");
+                break;
+            case R.id.item2:
+                Toast.makeText(getApplicationContext(), "Выбрана тема 2", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "НАЖАТИЕ НА item2");
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         if (savedInstanceState != null)
-            //  number = (String) savedInstanceState.getSerializable(number);
+            //  number = (String) savedInstanceState.getSerializable(number);как то попробовать записать в Bundle другие переменные?
             oldNumber = (String) savedInstanceState.getSerializable(oldNumber);
 
 
@@ -197,10 +224,11 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         minplus.setOnClickListener(actionClickListener);
     }
 
+
     /**
      * -------СОХРАНЕНИЕ СОСТОЯНИЯ------
      */
-    @Override
+ /*   @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable(oldNumber, oldNumber);
@@ -220,11 +248,11 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     public void setTextCalc(String oldNumber) {
         Log.d(TAG, "МЕТОД ВЫЗОВА ИНФОРМАЦИИ НА ЭКРАН");
         textView.setText(this.oldNumber);
-    }
+    }*/
 }
 /**
  * ---------------При повороте экрана тупо вылетает приложение(вот в логах что отображает)немогу понять что вызвало мою FATAL EXCEPTION: main
- *----------------и по сохранению состояния я все правильно сделал?
+ * ----------------и по сохранению состояния я все правильно сделал?
  * 2022-03-28 14:14:03.439 21000-21000/com.example.calculator D/myLog: onSaveInstanceState: СОХРАНЕНИЕ ДАННЫХ
  * 2022-03-28 14:14:03.441 21000-21000/com.example.calculator D/ActivityThread: Remove activity client record, r= ActivityRecord{9d71e8b token=android.os.BinderProxy@8b8c1fb {com.example.calculator/com.example.calculator.MainActivity}} token= android.os.BinderProxy@8b8c1fb
  * 2022-03-28 14:14:03.477 21000-21050/com.example.calculator W/libEGL: EGLNativeWindowType 0x6f4ae456d0 disconnect failed
@@ -237,22 +265,23 @@ public class MainActivity extends AppCompatActivity implements Serializable {
  * 2022-03-28 14:14:03.761 21000-21000/com.example.calculator I/QarthLog: [PatchStore] createDisableExceptionQarthFile
  * 2022-03-28 14:14:03.761 21000-21000/com.example.calculator I/QarthLog: [PatchStore] create disable file for com.example.calculator uid is 10118
  * 2022-03-28 14:14:03.763 21000-21000/com.example.calculator E/AndroidRuntime: FATAL EXCEPTION: main
- *     Process: com.example.calculator, PID: 21000
- *     java.lang.NullPointerException: Attempt to invoke virtual method 'void android.widget.TextView.setText(java.lang.CharSequence)' on a null object reference
- *         at com.example.calculator.MainActivity.setTextCalc(MainActivity.java:222)
- *         at com.example.calculator.MainActivity.onRestoreInstanceState(MainActivity.java:216)
- *         at android.app.Activity.performRestoreInstanceState(Activity.java:1580)
- *         at android.app.Instrumentation.callActivityOnRestoreInstanceState(Instrumentation.java:1367)
- *         at android.app.ActivityThread.handleStartActivity(ActivityThread.java:3937)
- *         at android.app.servertransaction.TransactionExecutor.performLifecycleSequence(TransactionExecutor.java:235)
- *         at android.app.servertransaction.TransactionExecutor.cycleToPath(TransactionExecutor.java:215)
- *         at android.app.servertransaction.TransactionExecutor.executeLifecycleState(TransactionExecutor.java:187)
- *         at android.app.servertransaction.TransactionExecutor.execute(TransactionExecutor.java:105)
- *         at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2473)
- *         at android.os.Handler.dispatchMessage(Handler.java:110)
- *         at android.os.Looper.loop(Looper.java:219)
- *         at android.app.ActivityThread.main(ActivityThread.java:8349)
- *         at java.lang.reflect.Method.invoke(Native Method)
- *         at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:513)
- *         at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1055)
- * 2022-03-28 14:14:03.785 21000-21000/com.example.calculator I/Process: Sending signal. PID: 21000 SIG: */
+ * Process: com.example.calculator, PID: 21000
+ * java.lang.NullPointerException: Attempt to invoke virtual method 'void android.widget.TextView.setText(java.lang.CharSequence)' on a null object reference
+ * at com.example.calculator.MainActivity.setTextCalc(MainActivity.java:222)
+ * at com.example.calculator.MainActivity.onRestoreInstanceState(MainActivity.java:216)
+ * at android.app.Activity.performRestoreInstanceState(Activity.java:1580)
+ * at android.app.Instrumentation.callActivityOnRestoreInstanceState(Instrumentation.java:1367)
+ * at android.app.ActivityThread.handleStartActivity(ActivityThread.java:3937)
+ * at android.app.servertransaction.TransactionExecutor.performLifecycleSequence(TransactionExecutor.java:235)
+ * at android.app.servertransaction.TransactionExecutor.cycleToPath(TransactionExecutor.java:215)
+ * at android.app.servertransaction.TransactionExecutor.executeLifecycleState(TransactionExecutor.java:187)
+ * at android.app.servertransaction.TransactionExecutor.execute(TransactionExecutor.java:105)
+ * at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2473)
+ * at android.os.Handler.dispatchMessage(Handler.java:110)
+ * at android.os.Looper.loop(Looper.java:219)
+ * at android.app.ActivityThread.main(ActivityThread.java:8349)
+ * at java.lang.reflect.Method.invoke(Native Method)
+ * at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:513)
+ * at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1055)
+ * 2022-03-28 14:14:03.785 21000-21000/com.example.calculator I/Process: Sending signal. PID: 21000 SIG:
+ */
