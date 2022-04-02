@@ -22,4 +22,5 @@
     <string name="item1">Item 1</string>
     <string name="item2">item 2</string>
     <string name="settings">settings</string>
+    <string name="division">|</string>
 </resources>

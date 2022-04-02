@@ -14,7 +14,7 @@
     <dimen name="heightResultButtonLand">50dp</dimen>
     <dimen name="paddingButtonResultLand">0dp</dimen>
     <dimen name="cornerRadius">30dp</dimen>
-    <dimen name="calcMarginBottom">34dp</dimen>
+    <dimen name="calcMarginBottom">0dp</dimen>
     <dimen name="calcPaddingStart">40dp</dimen>
     <dimen name="textViewMarginBottom">7dp</dimen>
     <dimen name="textW">300dp</dimen>

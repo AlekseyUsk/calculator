@@ -18,4 +18,5 @@
     <string name="key_res">=</string>
     <string name="key_del">C</string>
     <string name="key_minusPlus">-</string>
+    <string name="division">|</string>
 </resources>

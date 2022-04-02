@@ -7,8 +7,8 @@
         <item name="android:layout_height">@dimen/defaultButton</item>
         <item name="android:layout_margin">2dp</item>
         <item name="android:textSize">@dimen/buttonSize</item>
-        <item name="backgroundTint">@color/green</item>
         <item name="fontFamily">@font/animeace2_ital</item>
+        <item name="backgroundTint">@color/green</item>
     </style>
 
     <style name="ButtonCalcAction" parent="ButtonCalc">
@@ -20,7 +20,6 @@
         <item name="android:layout_height">@dimen/defaultButton</item>
         <item name="android:layout_gravity">fill_horizontal</item>
         <item name="android:layout_margin">@dimen/MarginResultButton</item>
-        <item name="android:backgroundTint">#cc0000</item>
     </style>
 
 

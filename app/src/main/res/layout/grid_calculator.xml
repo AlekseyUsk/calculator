@@ -6,14 +6,13 @@
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
     android:layout_marginBottom="@dimen/calcMarginBottom"
-    android:background="@color/teal_700"
     android:columnCount="4"
     android:orientation="horizontal"
     android:paddingStart="@dimen/calcPaddingStart"
     tools:context=".MainActivity">
 
-
     <TextView
+        android:backgroundTint="@color/white"
         android:id="@+id/textView"
         android:layout_width="@dimen/textW"
         android:layout_height="@dimen/textH"
@@ -42,7 +41,7 @@
     <Button
         android:id="@+id/division"
         style="@style/ButtonCalcAction"
-        android:text="|" />
+        android:text="@string/division" />
 
     <Button
         android:id="@+id/four"
