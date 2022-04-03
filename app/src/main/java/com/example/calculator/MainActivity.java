@@ -26,12 +26,15 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "myLog";
 
-    private static final String OLDNUMBER = "oldNumber"; // ключ значение для onSaveInstanceState
-    // неполучется сохранить состояние(возможно записал неправильно и отобразил в коде)
-
+    private static final String old_number = "ARG_OLD_NUMBER";
+    private static final String number = "ARG_NUMBER";
+    private static final String operator = "ARG_OPERATOR";
+    private static final boolean isNew = "ARG_IS_NEW";
     String oldNumber;
-    String operator;            // арифметические действия при нажатии кнопок(пока незадействовал)
-    String number;              // числа при нажатии кнопок
+    String operator;
+    String number;
+    boolean isNew = true;
+
     //region ИНИЦИАЛИЗИРОВАЛ КНОПКИ
     TextView textView;
     Button light;
@@ -75,9 +78,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState != null) {
-            oldNumber = (String) savedInstanceState.get("oldNumber");
-            showResult();
+            oldNumber = savedInstanceState.getString("ARG_OLD_NUMBER");
+            number = savedInstanceState.getString("ARG_NUMBER");
+            operator = savedInstanceState.getString("ARG_OPERATOR");
         }
+        showResult();
 
 //region findViewById
         TextView textView = findViewById(R.id.textView);
@@ -298,6 +303,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("oldNumber", oldNumber);
+        outState.putString("ARG_OPERATOR", operator);
+        outState.putString("ARG_NUMBER", number);
         Log.d(TAG, "onSaveInstanceState: СОХРАНЕНИЕ ДАННЫХ");
     }
 
@@ -314,7 +321,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void showResult() {
         Log.d(TAG, "МЕТОД ВЫЗОВА ИНФОРМАЦИИ НА ЭКРАН");
-        textView.setText(oldNumber);
+        textView.setText(old_number);
     }
-
 }
