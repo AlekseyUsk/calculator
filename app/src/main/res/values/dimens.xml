@@ -19,4 +19,7 @@
     <dimen name="textViewMarginBottom">7dp</dimen>
     <dimen name="textW">300dp</dimen>
     <dimen name="textH">45dp</dimen>
+    <dimen name="buttonLightH">40dp</dimen>
+    <dimen name="buttonDar">40dp</dimen>
+    <dimen name="buttonDarkMarginStart">60dp</dimen>
 </resources>

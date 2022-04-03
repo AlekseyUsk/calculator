@@ -5,6 +5,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,19 +17,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    //  private static final String THEME_KEY = "THEME_KEY";
 
-    // private static final String THEME_TWO = "THEME_TWO";
+    //region КЛЮЧ ЗНАЧЕНИЯ ДЛЯ sharedPreferences
+    private static final String THEME_KEY = "THEME_KEY";
+    private static final String THEME_LIGHT = "THEME_LIGHT";
+    private static final String THEME_DARK = "THEME_DARK";
+//endregion
 
-    public static final String TAG = "myLog";
+    private static final String TAG = "myLog";
 
     private static final String OLDNUMBER = "oldNumber"; // ключ значение для onSaveInstanceState
+    // неполучется сохранить состояние(возможно записал неправильно и отобразил в коде)
+
     String oldNumber;
     String operator;            // арифметические действия при нажатии кнопок(пока незадействовал)
-    String number;   // числа при нажатии кнопок
-
+    String number;              // числа при нажатии кнопок
+    //region ИНИЦИАЛИЗИРОВАЛ КНОПКИ
     TextView textView;
-
+    Button light;
+    Button dark;
     Button zero;
     Button one;
     Button two;
@@ -46,16 +54,23 @@ public class MainActivity extends AppCompatActivity {
     Button min;
     Button del;
     boolean isNew = true;
-
+//endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
 
-        //   SharedPreferences sharedPreferences = getSharedPreferences("SharedPreferences", Context.MODE_PRIVATE);
-        //  setTheme(R.style.Theme_Calculatorv2);
-
+        String theme = sharedPreferences.getString(THEME_KEY, THEME_LIGHT);
+        switch (theme) {
+            case THEME_DARK:
+                setTheme(R.style.Theme_Calculatorv2);
+                break;
+            default:
+                setTheme(R.style.Theme_Calculator);
+                break;
+        }
 
         setContentView(R.layout.activity_main);
 
@@ -64,18 +79,7 @@ public class MainActivity extends AppCompatActivity {
             showResult();
         }
 
-
-      /*  findViewById(R.id.item2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                sharedPreferences.edit();
-
-                recreate();
-            }
-        });*/
-
-
+//region findViewById
         TextView textView = findViewById(R.id.textView);
 
         Button zero = findViewById(R.id.zero);
@@ -97,7 +101,36 @@ public class MainActivity extends AppCompatActivity {
         Button min = findViewById(R.id.min);            //вычитание
         Button del = findViewById(R.id.del);            //стереть
         Button minplus = findViewById(R.id.minusplus);  //минус плюс
+//endregion
 
+
+// region ОБРАБОТЧИКИ НАЖАТИЙ ВЫБОРА ТЕМЫ + sharedPreferences
+        findViewById(R.id.dark).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                sharedPreferences.edit()
+                        .putString(THEME_KEY, THEME_DARK)
+                        .apply();
+
+
+                recreate();
+            }
+        });
+        findViewById(R.id.light).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sharedPreferences.edit()
+                        .putString(THEME_KEY, THEME_LIGHT)
+                        .apply();
+
+                recreate();
+            }
+        });
+
+//endregion
+
+//region numberButtonClickListener
         View.OnClickListener numberButtonClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -164,6 +197,9 @@ public class MainActivity extends AppCompatActivity {
                 textView.setText(oldNumber); // на экран вывожу при вводе цифры
             }
         };
+//endregion
+
+//region ДОБАВИЛ СЛУШАТЕЛЯ кнопкам
         zero.setOnClickListener(numberButtonClickListener);
         one.setOnClickListener(numberButtonClickListener);
         two.setOnClickListener(numberButtonClickListener);
@@ -174,6 +210,10 @@ public class MainActivity extends AppCompatActivity {
         seven.setOnClickListener(numberButtonClickListener);
         eight.setOnClickListener(numberButtonClickListener);
         nine.setOnClickListener(numberButtonClickListener);
+
+//endregion
+
+//region actionClickListener
 
         View.OnClickListener actionClickListener = new View.OnClickListener() {
             @Override
@@ -214,6 +254,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
         };
+//endregion
+
+//region ДОБАВИЛ СЛУШАТЕЛЯ кнопкам
+
         sum.setOnClickListener(actionClickListener);
         division.setOnClickListener(actionClickListener);
         multiply.setOnClickListener(actionClickListener);
@@ -222,8 +266,11 @@ public class MainActivity extends AppCompatActivity {
         min.setOnClickListener(actionClickListener);
         del.setOnClickListener(actionClickListener);
         minplus.setOnClickListener(actionClickListener);
+        //endregion
     }
 
+
+    //region ДОБАВИЛ МЕНЮ
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);//внутри метод getMenuInflater() который создает или раздувает наше меню из ресурсов
@@ -246,6 +293,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //endregion
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);

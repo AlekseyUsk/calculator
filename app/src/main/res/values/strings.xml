@@ -23,4 +23,6 @@
     <string name="item2">item 2</string>
     <string name="settings">settings</string>
     <string name="division">|</string>
+    <string name="dark">dark</string>
+    <string name="light">ligth</string>
 </resources>

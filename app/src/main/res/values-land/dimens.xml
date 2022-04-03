@@ -20,4 +20,7 @@
     <dimen name="btnpadding">0dp</dimen>
     <dimen name="texthLand">42dp</dimen>
     <dimen name="textMarginTop">10dp</dimen>
+    <dimen name="buttonLightH">40dp</dimen>
+    <dimen name="buttonDar">40dp</dimen>
+    <dimen name="buttonDarkMarginStart">60dp</dimen>
 </resources>
