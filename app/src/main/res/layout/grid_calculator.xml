@@ -6,19 +6,35 @@
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
     android:layout_marginBottom="@dimen/calcMarginBottom"
-    android:background="@color/teal_700"
     android:columnCount="4"
     android:orientation="horizontal"
     android:paddingStart="@dimen/calcPaddingStart"
     tools:context=".MainActivity">
 
 
+    <Button
+        android:id="@+id/light"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/buttonLightH"
+        android:layout_columnSpan="2"
+        android:text="@string/light" />
+
+
+    <Button
+        android:id="@+id/dark"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/buttonDar"
+        android:layout_columnSpan="2"
+        android:layout_marginStart="@dimen/buttonDarkMarginStart"
+        android:text="@string/dark" />
+
     <TextView
         android:id="@+id/textView"
-        android:layout_width="300dp"
-        android:layout_height="45dp"
+        android:layout_width="@dimen/textW"
+        android:layout_height="@dimen/textH"
         android:layout_columnSpan="4"
         android:layout_marginBottom="@dimen/textViewMarginBottom"
+        android:backgroundTint="@color/white"
         android:fontFamily="@font/animeace2_ital"
         android:text="@string/key_0"
         android:textSize="@dimen/textSize" />
@@ -42,7 +58,7 @@
     <Button
         android:id="@+id/division"
         style="@style/ButtonCalcAction"
-        android:text="|" />
+        android:text="@string/division" />
 
     <Button
         android:id="@+id/four"
