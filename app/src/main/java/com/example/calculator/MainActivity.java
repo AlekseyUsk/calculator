@@ -27,13 +27,13 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "myLog";
 
     private static final String old_number = "ARG_OLD_NUMBER";
-    private static final String number = "ARG_NUMBER";
-    private static final String operator = "ARG_OPERATOR";
-    private static final boolean isNew = "ARG_IS_NEW";
+    private static String number = "ARG_NUMBER";
+    //  private static String operator = "ARG_OPERATOR";
+    //  private static boolean isNew = "ARG_IS_NEW";
     String oldNumber;
     String operator;
-    String number;
-    boolean isNew = true;
+    //String number;как убираю комент так ошибка ?
+    //  boolean isNew = true;
 
     //region ИНИЦИАЛИЗИРОВАЛ КНОПКИ
     TextView textView;
@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
     Button cha;
     Button min;
     Button del;
-    boolean isNew = true;
 //endregion
 
     @Override
@@ -77,10 +76,15 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+
+       // sharedPreferences.getString("ARG_OLD_NUMBER",oldNumber);
+       // showResult();
+
         if (savedInstanceState != null) {
             oldNumber = savedInstanceState.getString("ARG_OLD_NUMBER");
             number = savedInstanceState.getString("ARG_NUMBER");
-            operator = savedInstanceState.getString("ARG_OPERATOR");
+            // operator = savedInstanceState.getString("ARG_OPERATOR");
+            // isNew = savedInstanceState.getBoolean("ARG_ISNEW");
         }
         showResult();
 
@@ -140,13 +144,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (isNew) {
+             /*   if (isNew) {
                     textView.setText("");
                 }
-                isNew = false;
+                isNew = false;*/
 
                 String number = textView.getText().toString();
-                String oldNumber = textView.getText().toString();
 
                 switch (view.getId()) {
                     case R.id.zero:
@@ -199,6 +202,12 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
                 oldNumber = number;
+              /*  пытался сделать через sharedPreferences так же вылетает
+              sharedPreferences.edit()
+                        .putString("ARG_OLD_NUMBER", oldNumber)
+                        .putString("ARG_NUMBER", number)
+                        .apply();*/
+                Log.d(TAG, "oldNumber = number");
                 textView.setText(oldNumber); // на экран вывожу при вводе цифры
             }
         };
@@ -223,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener actionClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isNew = true;
+                //  isNew = true;
 
                 switch (view.getId()) {
                     case R.id.sum:
@@ -292,7 +301,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.item2:
                 Toast.makeText(getApplicationContext(), "Выбрана тема 2", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "НАЖАТИЕ НА item2");
-                //  setTheme(R.style.Theme_Calculatorv2);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -302,25 +310,36 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("oldNumber", oldNumber);
-        outState.putString("ARG_OPERATOR", operator);
+        outState.putString("ARG_OLD_NUMBER", oldNumber);
+        //  outState.putString("ARG_OPERATOR", operator);
         outState.putString("ARG_NUMBER", number);
+        //outState.putBoolean("ARG_ISNEW",isNew);убрал с ней еще больше ошибок
         Log.d(TAG, "onSaveInstanceState: СОХРАНЕНИЕ ДАННЫХ");
     }
 
 
-
-   /* @Override
+/*
+    @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        oldNumber = (String) savedInstanceState.getSerializable("oldNumber");
+        oldNumber = (String) savedInstanceState.getString("ARG_OLD_NUMBER");
+        number = (String) savedInstanceState.getString("ARG_NUMBER");
+        operator = (String) savedInstanceState.getString("ARG_OPERATOR");
+      //  isNew = (boolean) savedInstanceState.getBoolean("ARG_IS_NEW");
         Log.d(TAG, "onRestoreInstanceState: ВОССТАНОВЛЕНИЕ ДАННЫХ");
         showResult();
+ }*/
 
-    }*/
-
-    private void showResult() {
+    public void showResult() {
         Log.d(TAG, "МЕТОД ВЫЗОВА ИНФОРМАЦИИ НА ЭКРАН");
-        textView.setText(old_number);
+        textView.setText(oldNumber);
     }
+
 }
+/**
+ * Process: com.example.calculator, PID: 2579
+ *     java.lang.RuntimeException: Unable to start activity ComponentInfo{com.example.calculator/com.example.calculator.MainActivity}: java.lang.NullPointerException: Attempt to invoke virtual method 'void android.widget.TextView.setText(java.lang.CharSequence)' on a null object reference
+ *
+ * Caused by: java.lang.NullPointerException: Attempt to invoke virtual method 'void android.widget.TextView.setText(java.lang.CharSequence)' on a null object reference
+ at com.example.calculator.MainActivity.showResult(MainActivity.java:333)
+ at com.example.calculator.MainActivity.onCreate(MainActivity.java:80)*/
