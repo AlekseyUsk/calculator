@@ -18,6 +18,12 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    Calculator calculator = new Calculator();
+    private TextView info;
+    private TextView textView;
+
+
     //region КЛЮЧ ЗНАЧЕНИЯ ДЛЯ sharedPreferences
     private static final String THEME_KEY = "THEME_KEY";
     private static final String THEME_LIGHT = "THEME_LIGHT";
@@ -26,17 +32,14 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "myLog";
 
-    private static final String old_number = "ARG_OLD_NUMBER";
-    private static String number = "ARG_NUMBER";
-    //  private static String operator = "ARG_OPERATOR";
+    private static final String DISPLAY = "DISPLAY";
+    private static final String CALCULATOR = "CALCULATOR";
     //  private static boolean isNew = "ARG_IS_NEW";
-    String oldNumber;
-    String operator;
-    //String number;как убираю комент так ошибка ?
+
     //  boolean isNew = true;
 
     //region ИНИЦИАЛИЗИРОВАЛ КНОПКИ
-    TextView textView;
+
     Button light;
     Button dark;
     Button zero;
@@ -61,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TextView info = findViewById(R.id.info);
+        TextView textView = findViewById(R.id.textView);
 
         SharedPreferences sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
 
@@ -76,21 +81,18 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        calculator = new Calculator();
 
-       // sharedPreferences.getString("ARG_OLD_NUMBER",oldNumber);
-       // showResult();
 
-        if (savedInstanceState != null) {
+      /*  if (savedInstanceState != null) {
             oldNumber = savedInstanceState.getString("ARG_OLD_NUMBER");
             number = savedInstanceState.getString("ARG_NUMBER");
             // operator = savedInstanceState.getString("ARG_OPERATOR");
             // isNew = savedInstanceState.getBoolean("ARG_ISNEW");
         }
-        showResult();
+        showResult();*/
 
 //region findViewById
-        TextView textView = findViewById(R.id.textView);
-
         Button zero = findViewById(R.id.zero);
         Button one = findViewById(R.id.one);
         Button two = findViewById(R.id.two);
@@ -149,68 +151,76 @@ public class MainActivity extends AppCompatActivity {
                 }
                 isNew = false;*/
 
-                String number = textView.getText().toString();
-
                 switch (view.getId()) {
                     case R.id.zero:
-                        number = number + "0";
+                        calculator.setOldNumber("0");
+                        showResult();
                         Log.d(TAG, "НАЖАТА КНОПКА 0");
                         break;
                     case R.id.one:
-                        number = number + "1";
+                        calculator.setOldNumber("1");
                         Log.d(TAG, "НАЖАТА КНОПКА 1");
                         break;
                     case R.id.two:
-                        number = number + "2";
+                        calculator.setOldNumber("2");
                         Log.d(TAG, "НАЖАТА КНОПКА 2");
                         break;
                     case R.id.three:
-                        number = number + "3";
+                        calculator.setOldNumber("3");
                         Log.d(TAG, "НАЖАТА КНОПКА 3");
                         break;
                     case R.id.four:
-                        number = number + "4";
+                        calculator.setOldNumber("4");
                         Log.d(TAG, "НАЖАТА КНОПКА 4");
                         break;
                     case R.id.five:
-                        number = number + "5";
+                        calculator.setOldNumber("5");
                         Log.d(TAG, "НАЖАТА КНОПКА 5");
                         break;
                     case R.id.six:
-                        number = number + "6";
+                        calculator.setOldNumber("6");
                         Log.d(TAG, "НАЖАТА КНОПКА 6");
                         break;
                     case R.id.seven:
-                        number = number + "7";
+                        calculator.setOldNumber("7");
                         Log.d(TAG, "НАЖАТА КНОПКА 7");
                         break;
                     case R.id.eight:
-                        number = number + "8";
+                        calculator.setOldNumber("8");
                         Log.d(TAG, "НАЖАТА КНОПКА 8");
                         break;
                     case R.id.nine:
-                        number = number + "9";
+                        calculator.setOldNumber("9");
                         Log.d(TAG, "НАЖАТА КНОПКА 9");
                         break;
-                    case R.id.del:
-                        number = null;
-                        Log.d(TAG, "НАЖАТА КНОПКА стереть С");
+                    case R.id.sum:
+                        calculator.setOperator("+");
+                        Log.d(TAG, "НАЖАТА КНОПКА +");
                         break;
-                    case R.id.minusplus:
-                        number = "-" + number;
-                        Log.d(TAG, "НАЖАТА КНОПКА +/-");
+                    case R.id.division:
+                        calculator.setOperator("/");
+                        Log.d(TAG, "НАЖАТА КНОПКА ДЕЛЕНИЕ");
+                        break;
+                    case R.id.multiply:
+                        calculator.setOperator("*");
+                        Log.d(TAG, "НАЖАТА КНОПКА *");
+                        break;
+                    case R.id.result:
+                        calculator.setOperator("=");
+                        Log.d(TAG, "НАЖАТА КНОПКА =");
+                        break;
+                    case R.id.cha:
+                        calculator.setOperator(",");
+                        Log.d(TAG, "НАЖАТА КНОПКА ,");
+                        break;
+                    case R.id.min:
+                        calculator.setOperator("-");
+                        Log.d(TAG, "НАЖАТА КНОПКА -");
                         break;
                 }
-                oldNumber = number;
-              /*  пытался сделать через sharedPreferences так же вылетает
-              sharedPreferences.edit()
-                        .putString("ARG_OLD_NUMBER", oldNumber)
-                        .putString("ARG_NUMBER", number)
-                        .apply();*/
-                Log.d(TAG, "oldNumber = number");
-                textView.setText(oldNumber); // на экран вывожу при вводе цифры
             }
         };
+
 //endregion
 
 //region ДОБАВИЛ СЛУШАТЕЛЯ кнопкам
@@ -224,63 +234,17 @@ public class MainActivity extends AppCompatActivity {
         seven.setOnClickListener(numberButtonClickListener);
         eight.setOnClickListener(numberButtonClickListener);
         nine.setOnClickListener(numberButtonClickListener);
+        sum.setOnClickListener(numberButtonClickListener);
+        division.setOnClickListener(numberButtonClickListener);
+        multiply.setOnClickListener(numberButtonClickListener);
+        result.setOnClickListener(numberButtonClickListener);
+        cha.setOnClickListener(numberButtonClickListener);
+        min.setOnClickListener(numberButtonClickListener);
+        del.setOnClickListener(numberButtonClickListener);
+        minplus.setOnClickListener(numberButtonClickListener);
 
 //endregion
 
-//region actionClickListener
-
-        View.OnClickListener actionClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //  isNew = true;
-
-                switch (view.getId()) {
-                    case R.id.sum:
-                        operator = "+";
-                        Log.d(TAG, "НАЖАТА КНОПКА +");
-                        break;
-                    case R.id.division:
-                        operator = "/";
-                        Log.d(TAG, "НАЖАТА КНОПКА ДЕЛЕНИЕ");
-                        break;
-                    case R.id.multiply:
-                        operator = "*";
-                        Log.d(TAG, "НАЖАТА КНОПКА *");
-                        break;
-                    case R.id.result:
-                        operator = "=";
-                        Log.d(TAG, "НАЖАТА КНОПКА =");
-                        break;
-                    case R.id.cha:
-                        operator = ".";
-                        Log.d(TAG, "НАЖАТА КНОПКА ,");
-                        break;
-                    case R.id.min:
-                        operator = "-";
-                        Log.d(TAG, "НАЖАТА КНОПКА -");
-                        break;
-                    case R.id.del:
-                        operator = null;
-                        Log.d(TAG, "НАЖАТА КНОПКА стереть С");
-                        break;
-                }
-                textView.setText(operator);
-            }
-
-        };
-//endregion
-
-//region ДОБАВИЛ СЛУШАТЕЛЯ кнопкам
-
-        sum.setOnClickListener(actionClickListener);
-        division.setOnClickListener(actionClickListener);
-        multiply.setOnClickListener(actionClickListener);
-        result.setOnClickListener(actionClickListener);
-        cha.setOnClickListener(actionClickListener);
-        min.setOnClickListener(actionClickListener);
-        del.setOnClickListener(actionClickListener);
-        minplus.setOnClickListener(actionClickListener);
-        //endregion
     }
 
 
@@ -307,15 +271,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //endregion
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("ARG_OLD_NUMBER", oldNumber);
-        //  outState.putString("ARG_OPERATOR", operator);
-        outState.putString("ARG_NUMBER", number);
-        //outState.putBoolean("ARG_ISNEW",isNew);убрал с ней еще больше ошибок
-        Log.d(TAG, "onSaveInstanceState: СОХРАНЕНИЕ ДАННЫХ");
-    }
 
 
 /*
@@ -332,14 +287,22 @@ public class MainActivity extends AppCompatActivity {
 
     public void showResult() {
         Log.d(TAG, "МЕТОД ВЫЗОВА ИНФОРМАЦИИ НА ЭКРАН");
-        textView.setText(oldNumber);
+        textView.setText(calculator.getOldNumber());
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(DISPLAY, (String) info.getText());
+        outState.putSerializable(CALCULATOR, calculator);
+
+    }
 }
 /**
  * Process: com.example.calculator, PID: 2579
- *     java.lang.RuntimeException: Unable to start activity ComponentInfo{com.example.calculator/com.example.calculator.MainActivity}: java.lang.NullPointerException: Attempt to invoke virtual method 'void android.widget.TextView.setText(java.lang.CharSequence)' on a null object reference
- *
+ * java.lang.RuntimeException: Unable to start activity ComponentInfo{com.example.calculator/com.example.calculator.MainActivity}: java.lang.NullPointerException: Attempt to invoke virtual method 'void android.widget.TextView.setText(java.lang.CharSequence)' on a null object reference
+ * <p>
  * Caused by: java.lang.NullPointerException: Attempt to invoke virtual method 'void android.widget.TextView.setText(java.lang.CharSequence)' on a null object reference
- at com.example.calculator.MainActivity.showResult(MainActivity.java:333)
- at com.example.calculator.MainActivity.onCreate(MainActivity.java:80)*/
+ * at com.example.calculator.MainActivity.showResult(MainActivity.java:333)
+ * at com.example.calculator.MainActivity.onCreate(MainActivity.java:80)
+ */
