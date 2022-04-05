@@ -16,12 +16,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
+
 public class MainActivity extends AppCompatActivity {
 
 
     Calculator calculator = new Calculator();
     private TextView info;
     private TextView textView;
+    String num;
 
 
     //region КЛЮЧ ЗНАЧЕНИЯ ДЛЯ sharedPreferences
@@ -34,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String DISPLAY = "DISPLAY";
     private static final String CALCULATOR = "CALCULATOR";
-    //  private static boolean isNew = "ARG_IS_NEW";
 
     //  boolean isNew = true;
 
@@ -64,8 +66,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TextView info = findViewById(R.id.info);
-        TextView textView = findViewById(R.id.textView);
+
 
         SharedPreferences sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
 
@@ -84,15 +85,15 @@ public class MainActivity extends AppCompatActivity {
         calculator = new Calculator();
 
 
-      /*  if (savedInstanceState != null) {
-            oldNumber = savedInstanceState.getString("ARG_OLD_NUMBER");
-            number = savedInstanceState.getString("ARG_NUMBER");
-            // operator = savedInstanceState.getString("ARG_OPERATOR");
-            // isNew = savedInstanceState.getBoolean("ARG_ISNEW");
+        if (savedInstanceState != null) {
+            calculator = (Calculator) savedInstanceState.getSerializable("CALCULATOR");
         }
-        showResult();*/
+
 
 //region findViewById
+        TextView info = findViewById(R.id.info);
+        TextView textView = findViewById(R.id.textView);
+
         Button zero = findViewById(R.id.zero);
         Button one = findViewById(R.id.one);
         Button two = findViewById(R.id.two);
@@ -146,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+
              /*   if (isNew) {
                     textView.setText("");
                 }
@@ -154,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
                 switch (view.getId()) {
                     case R.id.zero:
                         calculator.setOldNumber("0");
-                        showResult();
                         Log.d(TAG, "НАЖАТА КНОПКА 0");
                         break;
                     case R.id.one:
@@ -164,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.two:
                         calculator.setOldNumber("2");
                         Log.d(TAG, "НАЖАТА КНОПКА 2");
+                        info.setText(calculator.oldNumber);
                         break;
                     case R.id.three:
                         calculator.setOldNumber("3");
@@ -218,6 +220,8 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "НАЖАТА КНОПКА -");
                         break;
                 }
+
+                info.setText(calculator.oldNumber);
             }
         };
 
@@ -247,7 +251,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     //region ДОБАВИЛ МЕНЮ
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -272,37 +275,16 @@ public class MainActivity extends AppCompatActivity {
 
     //endregion
 
-
-/*
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        oldNumber = (String) savedInstanceState.getString("ARG_OLD_NUMBER");
-        number = (String) savedInstanceState.getString("ARG_NUMBER");
-        operator = (String) savedInstanceState.getString("ARG_OPERATOR");
-      //  isNew = (boolean) savedInstanceState.getBoolean("ARG_IS_NEW");
-        Log.d(TAG, "onRestoreInstanceState: ВОССТАНОВЛЕНИЕ ДАННЫХ");
-        showResult();
- }*/
-
-    public void showResult() {
-        Log.d(TAG, "МЕТОД ВЫЗОВА ИНФОРМАЦИИ НА ЭКРАН");
-        textView.setText(calculator.getOldNumber());
-    }
-
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(DISPLAY, (String) info.getText());
         outState.putSerializable(CALCULATOR, calculator);
 
     }
+
+    public void showResult() {
+        Log.d(TAG, "МЕТОД ВЫЗОВА ИНФОРМАЦИИ НА ЭКРАН");
+        TextView textView = findViewById(R.id.textView);
+        textView.setText(calculator.oldNumber);
+    }
 }
-/**
- * Process: com.example.calculator, PID: 2579
- * java.lang.RuntimeException: Unable to start activity ComponentInfo{com.example.calculator/com.example.calculator.MainActivity}: java.lang.NullPointerException: Attempt to invoke virtual method 'void android.widget.TextView.setText(java.lang.CharSequence)' on a null object reference
- * <p>
- * Caused by: java.lang.NullPointerException: Attempt to invoke virtual method 'void android.widget.TextView.setText(java.lang.CharSequence)' on a null object reference
- * at com.example.calculator.MainActivity.showResult(MainActivity.java:333)
- * at com.example.calculator.MainActivity.onCreate(MainActivity.java:80)
- */
