@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     private static final String THEME_KEY = "THEME_KEY";
     private static final String THEME_LIGHT = "THEME_LIGHT";
     private static final String THEME_DARK = "THEME_DARK";
+
+    SharedPreferences mSettings;     //переменная SharedPreferences mSettings;
 //endregion
 
     private static final String TAG = "myLog";
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     private static final String DISPLAY = "DISPLAY";
     private static final String CALCULATOR = "CALCULATOR";
 
-    //  boolean isNew = true;
+    boolean isNew = true;
 
     //region ИНИЦИАЛИЗИРОВАЛ КНОПКИ
 
@@ -66,9 +68,9 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
+        SharedPreferences mySharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
 
-        String theme = sharedPreferences.getString(THEME_KEY, THEME_LIGHT);
+        String theme = mySharedPreferences.getString(THEME_KEY, THEME_LIGHT);
         switch (theme) {
             case THEME_DARK:
                 setTheme(R.style.Theme_Calculatorv2);
@@ -115,11 +117,11 @@ public class MainActivity extends AppCompatActivity implements Serializable {
 
 
 // region ОБРАБОТЧИКИ НАЖАТИЙ ВЫБОРА ТЕМЫ + sharedPreferences
-/*        findViewById(R.id.dark).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.dark).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                sharedPreferences.edit()
+                mySharedPreferences.edit()
                         .putString(THEME_KEY, THEME_DARK)
                         .apply();
 
@@ -130,13 +132,13 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         findViewById(R.id.light).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sharedPreferences.edit()
+                mySharedPreferences.edit()
                         .putString(THEME_KEY, THEME_LIGHT)
                         .apply();
 
                 recreate();
             }
-        });*/
+        });
 
 //endregion
 
@@ -146,10 +148,10 @@ public class MainActivity extends AppCompatActivity implements Serializable {
             public void onClick(View view) {
                 TextView textView = findViewById(R.id.textView);
 
-                /*   if (isNew) {
+                   if (isNew) {
                     textView.setText("");
                 }
-                isNew = false;*/
+                isNew = false;
 
                 switch (view.getId()) {
                     case R.id.zero:
