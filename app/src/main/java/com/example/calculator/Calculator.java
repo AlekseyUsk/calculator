@@ -1,22 +1,21 @@
 package com.example.calculator;
 
-import android.os.Parcelable;
 import android.util.Log;
-import android.widget.TextView;
+
 
 import java.io.Serializable;
 
 public class Calculator implements Serializable {
     private static final String TAG = "myLog";
 
+    StringBuilder sb = new StringBuilder();
+
     String oldNumber;
     String operator;
     String number;
 
 
-    public String getNumber() {
-        return number;
-    }
+
 
     public void setNumber(String number) {
         this.number = number;
@@ -37,6 +36,10 @@ public class Calculator implements Serializable {
 
     public String getOperator() {
         return operator;
+    }
+
+    public String getNumber() {
+        return number;
     }
 
 

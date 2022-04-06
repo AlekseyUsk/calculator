@@ -11,16 +11,7 @@
     android:paddingStart="@dimen/calcPaddingStart"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/info"
-        android:layout_width="@dimen/textW"
-        android:layout_height="@dimen/textH"
-        android:layout_columnSpan="4"
-        android:layout_marginBottom="@dimen/textViewMarginBottom"
-        android:backgroundTint="@color/white"
-        android:fontFamily="@font/animeace2_ital"
-        android:text="@string/key_0"
-        android:textSize="@dimen/textSize" />
+
 
 
     <Button
@@ -45,7 +36,6 @@
         android:layout_height="@dimen/textH"
         android:layout_columnSpan="4"
         android:layout_marginBottom="@dimen/textViewMarginBottom"
-        android:backgroundTint="@color/white"
         android:fontFamily="@font/animeace2_ital"
         android:text="@string/key_0"
         android:textSize="@dimen/textSize" />

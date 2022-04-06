@@ -18,13 +18,12 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Serializable {
 
 
     Calculator calculator = new Calculator();
-    private TextView info;
-    private TextView textView;
     String num;
+    String num2;
 
 
     //region КЛЮЧ ЗНАЧЕНИЯ ДЛЯ sharedPreferences
@@ -67,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         SharedPreferences sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
 
         String theme = sharedPreferences.getString(THEME_KEY, THEME_LIGHT);
@@ -88,11 +86,11 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             calculator = (Calculator) savedInstanceState.getSerializable("CALCULATOR");
         }
+        showResult();
 
 
 //region findViewById
         TextView info = findViewById(R.id.info);
-        TextView textView = findViewById(R.id.textView);
 
         Button zero = findViewById(R.id.zero);
         Button one = findViewById(R.id.one);
@@ -117,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 // region ОБРАБОТЧИКИ НАЖАТИЙ ВЫБОРА ТЕМЫ + sharedPreferences
-        findViewById(R.id.dark).setOnClickListener(new View.OnClickListener() {
+/*        findViewById(R.id.dark).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -138,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
                 recreate();
             }
-        });
+        });*/
 
 //endregion
 
@@ -146,53 +144,52 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener numberButtonClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                TextView textView = findViewById(R.id.textView);
 
-
-             /*   if (isNew) {
+                /*   if (isNew) {
                     textView.setText("");
                 }
                 isNew = false;*/
 
                 switch (view.getId()) {
                     case R.id.zero:
-                        calculator.setOldNumber("0");
+                        calculator.sb.append("0");
                         Log.d(TAG, "НАЖАТА КНОПКА 0");
                         break;
                     case R.id.one:
-                        calculator.setOldNumber("1");
+                        calculator.sb.append("1");
                         Log.d(TAG, "НАЖАТА КНОПКА 1");
                         break;
                     case R.id.two:
-                        calculator.setOldNumber("2");
+                        calculator.sb.append("2");
                         Log.d(TAG, "НАЖАТА КНОПКА 2");
-                        info.setText(calculator.oldNumber);
                         break;
                     case R.id.three:
-                        calculator.setOldNumber("3");
+                        calculator.sb.append("3");
                         Log.d(TAG, "НАЖАТА КНОПКА 3");
                         break;
                     case R.id.four:
-                        calculator.setOldNumber("4");
+                        calculator.sb.append("4");
                         Log.d(TAG, "НАЖАТА КНОПКА 4");
                         break;
                     case R.id.five:
-                        calculator.setOldNumber("5");
+                        calculator.sb.append("5");
                         Log.d(TAG, "НАЖАТА КНОПКА 5");
                         break;
                     case R.id.six:
-                        calculator.setOldNumber("6");
+                        calculator.sb.append("6");
                         Log.d(TAG, "НАЖАТА КНОПКА 6");
                         break;
                     case R.id.seven:
-                        calculator.setOldNumber("7");
+                        calculator.sb.append("7");
                         Log.d(TAG, "НАЖАТА КНОПКА 7");
                         break;
                     case R.id.eight:
-                        calculator.setOldNumber("8");
+                        calculator.sb.append("8");
                         Log.d(TAG, "НАЖАТА КНОПКА 8");
                         break;
                     case R.id.nine:
-                        calculator.setOldNumber("9");
+                        calculator.sb.append("9");
                         Log.d(TAG, "НАЖАТА КНОПКА 9");
                         break;
                     case R.id.sum:
@@ -219,11 +216,19 @@ public class MainActivity extends AppCompatActivity {
                         calculator.setOperator("-");
                         Log.d(TAG, "НАЖАТА КНОПКА -");
                         break;
+                    case R.id.del:
+                        if (calculator.sb != null) {
+                            calculator.sb = new StringBuilder();
+                        }
+                        Log.d(TAG, "НАЖАТА КНОПКА ДЕЛЕНИЕ");
+                        break;
                 }
-
-                info.setText(calculator.oldNumber);
+                textView.setText(calculator.getOldNumber());
+                textView.setText(calculator.sb.toString());
             }
+
         };
+
 
 //endregion
 
@@ -283,8 +288,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showResult() {
-        Log.d(TAG, "МЕТОД ВЫЗОВА ИНФОРМАЦИИ НА ЭКРАН");
         TextView textView = findViewById(R.id.textView);
-        textView.setText(calculator.oldNumber);
+        Log.d(TAG, "МЕТОД ВЫЗОВА ИНФОРМАЦИИ НА ЭКРАН");
+        textView.setText(calculator.sb.toString());
     }
 }
