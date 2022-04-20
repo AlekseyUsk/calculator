@@ -12,6 +12,8 @@
     tools:context=".MainActivity">
 
 
+
+
     <Button
         android:id="@+id/light"
         android:layout_width="wrap_content"
@@ -34,7 +36,6 @@
         android:layout_height="@dimen/textH"
         android:layout_columnSpan="4"
         android:layout_marginBottom="@dimen/textViewMarginBottom"
-        android:backgroundTint="@color/white"
         android:fontFamily="@font/animeace2_ital"
         android:text="@string/key_0"
         android:textSize="@dimen/textSize" />

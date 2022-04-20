@@ -16,24 +16,33 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import java.io.Serializable;
+
+public class MainActivity extends AppCompatActivity implements Serializable {
+
+
+    Calculator calculator = new Calculator();
+    String num;
+    String num2;
+
 
     //region КЛЮЧ ЗНАЧЕНИЯ ДЛЯ sharedPreferences
-    private static final String THEME_KEY = "THEME_KEY";
-    private static final String THEME_LIGHT = "THEME_LIGHT";
-    private static final String THEME_DARK = "THEME_DARK";
+    private static final String APP_PREFERENCES = "mySettings";
+    private static final String APP_PREFERENCES_LIGHT = "LIGHT";
+    private static final String APP_PREFERENCES_DARK = "DARK";
+
+    SharedPreferences mySettings;    //переменная класса mySharedPreferences
 //endregion
 
     private static final String TAG = "myLog";
 
-    private static final String OLDNUMBER = "oldNumber"; // ключ значение для onSaveInstanceState
-    // неполучется сохранить состояние(возможно записал неправильно и отобразил в коде)
+    private static final String DISPLAY = "DISPLAY";
+    private static final String CALCULATOR = "CALCULATOR";
 
-    String oldNumber;
-    String operator;            // арифметические действия при нажатии кнопок(пока незадействовал)
-    String number;              // числа при нажатии кнопок
+    boolean isNew = true;
+
     //region ИНИЦИАЛИЗИРОВАЛ КНОПКИ
-    TextView textView;
+
     Button light;
     Button dark;
     Button zero;
@@ -53,18 +62,18 @@ public class MainActivity extends AppCompatActivity {
     Button cha;
     Button min;
     Button del;
-    boolean isNew = true;
 //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
+        mySettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE); //Внутри метода onCreate()инициализирую эту переменную
 
-        String theme = sharedPreferences.getString(THEME_KEY, THEME_LIGHT);
+
+        String theme = mySettings.getString(APP_PREFERENCES, APP_PREFERENCES_LIGHT);
         switch (theme) {
-            case THEME_DARK:
+            case APP_PREFERENCES_DARK:
                 setTheme(R.style.Theme_Calculatorv2);
                 break;
             default:
@@ -74,13 +83,17 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        calculator = new Calculator();
+
+
         if (savedInstanceState != null) {
-            oldNumber = (String) savedInstanceState.get("oldNumber");
-            showResult();
+            calculator = (Calculator) savedInstanceState.getSerializable("CALCULATOR");
         }
+        showResult();
+
 
 //region findViewById
-        TextView textView = findViewById(R.id.textView);
+        TextView info = findViewById(R.id.info);
 
         Button zero = findViewById(R.id.zero);
         Button one = findViewById(R.id.one);
@@ -109,9 +122,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                sharedPreferences.edit()
-                        .putString(THEME_KEY, THEME_DARK)
-                        .apply();
+                SharedPreferences.Editor editor = mySettings.edit();
+                editor.putString(APP_PREFERENCES, APP_PREFERENCES_DARK);
+                editor.apply();
 
 
                 recreate();
@@ -120,9 +133,9 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.light).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sharedPreferences.edit()
-                        .putString(THEME_KEY, THEME_LIGHT)
-                        .apply();
+                SharedPreferences.Editor editor = mySettings.edit();
+                editor.putString(APP_PREFERENCES, APP_PREFERENCES_LIGHT);
+                editor.apply();
 
                 recreate();
             }
@@ -134,69 +147,92 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener numberButtonClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                TextView textView = findViewById(R.id.textView);
 
                 if (isNew) {
                     textView.setText("");
                 }
                 isNew = false;
 
-                String number = textView.getText().toString();
-                String oldNumber = textView.getText().toString();
-
                 switch (view.getId()) {
                     case R.id.zero:
-                        number = number + "0";
+                        calculator.sb.append("0");
                         Log.d(TAG, "НАЖАТА КНОПКА 0");
                         break;
                     case R.id.one:
-                        number = number + "1";
+                        calculator.sb.append("1");
                         Log.d(TAG, "НАЖАТА КНОПКА 1");
                         break;
                     case R.id.two:
-                        number = number + "2";
+                        calculator.sb.append("2");
                         Log.d(TAG, "НАЖАТА КНОПКА 2");
                         break;
                     case R.id.three:
-                        number = number + "3";
+                        calculator.sb.append("3");
                         Log.d(TAG, "НАЖАТА КНОПКА 3");
                         break;
                     case R.id.four:
-                        number = number + "4";
+                        calculator.sb.append("4");
                         Log.d(TAG, "НАЖАТА КНОПКА 4");
                         break;
                     case R.id.five:
-                        number = number + "5";
+                        calculator.sb.append("5");
                         Log.d(TAG, "НАЖАТА КНОПКА 5");
                         break;
                     case R.id.six:
-                        number = number + "6";
+                        calculator.sb.append("6");
                         Log.d(TAG, "НАЖАТА КНОПКА 6");
                         break;
                     case R.id.seven:
-                        number = number + "7";
+                        calculator.sb.append("7");
                         Log.d(TAG, "НАЖАТА КНОПКА 7");
                         break;
                     case R.id.eight:
-                        number = number + "8";
+                        calculator.sb.append("8");
                         Log.d(TAG, "НАЖАТА КНОПКА 8");
                         break;
                     case R.id.nine:
-                        number = number + "9";
+                        calculator.sb.append("9");
                         Log.d(TAG, "НАЖАТА КНОПКА 9");
                         break;
-                    case R.id.del:
-                        number = null;
-                        Log.d(TAG, "НАЖАТА КНОПКА стереть С");
+                    case R.id.sum:
+                        calculator.setOperator("+");
+                        Log.d(TAG, "НАЖАТА КНОПКА +");
                         break;
-                    case R.id.minusplus:
-                        number = "-" + number;
-                        Log.d(TAG, "НАЖАТА КНОПКА +/-");
+                    case R.id.division:
+                        calculator.setOperator("/");
+                        Log.d(TAG, "НАЖАТА КНОПКА ДЕЛЕНИЕ");
+                        break;
+                    case R.id.multiply:
+                        calculator.setOperator("*");
+                        Log.d(TAG, "НАЖАТА КНОПКА *");
+                        break;
+                    case R.id.result:
+                        calculator.setOperator("=");
+                        Log.d(TAG, "НАЖАТА КНОПКА =");
+                        break;
+                    case R.id.cha:
+                        calculator.setOperator(",");
+                        Log.d(TAG, "НАЖАТА КНОПКА ,");
+                        break;
+                    case R.id.min:
+                        calculator.setOperator("-");
+                        Log.d(TAG, "НАЖАТА КНОПКА -");
+                        break;
+                    case R.id.del:
+                        if (calculator.sb != null) {
+                            calculator.sb = new StringBuilder();
+                        }
+                        Log.d(TAG, "НАЖАТА КНОПКА ДЕЛЕНИЕ");
                         break;
                 }
-                oldNumber = number;
-                textView.setText(oldNumber); // на экран вывожу при вводе цифры
+                textView.setText(calculator.getOldNumber());
+                textView.setText(calculator.sb.toString());
             }
+
         };
+
+
 //endregion
 
 //region ДОБАВИЛ СЛУШАТЕЛЯ кнопкам
@@ -210,65 +246,18 @@ public class MainActivity extends AppCompatActivity {
         seven.setOnClickListener(numberButtonClickListener);
         eight.setOnClickListener(numberButtonClickListener);
         nine.setOnClickListener(numberButtonClickListener);
+        sum.setOnClickListener(numberButtonClickListener);
+        division.setOnClickListener(numberButtonClickListener);
+        multiply.setOnClickListener(numberButtonClickListener);
+        result.setOnClickListener(numberButtonClickListener);
+        cha.setOnClickListener(numberButtonClickListener);
+        min.setOnClickListener(numberButtonClickListener);
+        del.setOnClickListener(numberButtonClickListener);
+        minplus.setOnClickListener(numberButtonClickListener);
 
 //endregion
 
-//region actionClickListener
-
-        View.OnClickListener actionClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isNew = true;
-
-                switch (view.getId()) {
-                    case R.id.sum:
-                        operator = "+";
-                        Log.d(TAG, "НАЖАТА КНОПКА +");
-                        break;
-                    case R.id.division:
-                        operator = "/";
-                        Log.d(TAG, "НАЖАТА КНОПКА ДЕЛЕНИЕ");
-                        break;
-                    case R.id.multiply:
-                        operator = "*";
-                        Log.d(TAG, "НАЖАТА КНОПКА *");
-                        break;
-                    case R.id.result:
-                        operator = "=";
-                        Log.d(TAG, "НАЖАТА КНОПКА =");
-                        break;
-                    case R.id.cha:
-                        operator = ".";
-                        Log.d(TAG, "НАЖАТА КНОПКА ,");
-                        break;
-                    case R.id.min:
-                        operator = "-";
-                        Log.d(TAG, "НАЖАТА КНОПКА -");
-                        break;
-                    case R.id.del:
-                        operator = null;
-                        Log.d(TAG, "НАЖАТА КНОПКА стереть С");
-                        break;
-                }
-                textView.setText(operator);
-            }
-
-        };
-//endregion
-
-//region ДОБАВИЛ СЛУШАТЕЛЯ кнопкам
-
-        sum.setOnClickListener(actionClickListener);
-        division.setOnClickListener(actionClickListener);
-        multiply.setOnClickListener(actionClickListener);
-        result.setOnClickListener(actionClickListener);
-        cha.setOnClickListener(actionClickListener);
-        min.setOnClickListener(actionClickListener);
-        del.setOnClickListener(actionClickListener);
-        minplus.setOnClickListener(actionClickListener);
-        //endregion
     }
-
 
     //region ДОБАВИЛ МЕНЮ
     @Override
@@ -287,34 +276,23 @@ public class MainActivity extends AppCompatActivity {
             case R.id.item2:
                 Toast.makeText(getApplicationContext(), "Выбрана тема 2", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "НАЖАТИЕ НА item2");
-                //  setTheme(R.style.Theme_Calculatorv2);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     //endregion
+
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("oldNumber", oldNumber);
-        Log.d(TAG, "onSaveInstanceState: СОХРАНЕНИЕ ДАННЫХ");
+        outState.putSerializable(CALCULATOR, calculator);
+
     }
 
-
-
-   /* @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        oldNumber = (String) savedInstanceState.getSerializable("oldNumber");
-        Log.d(TAG, "onRestoreInstanceState: ВОССТАНОВЛЕНИЕ ДАННЫХ");
-        showResult();
-
-    }*/
-
-    private void showResult() {
+    public void showResult() {
+        TextView textView = findViewById(R.id.textView);
         Log.d(TAG, "МЕТОД ВЫЗОВА ИНФОРМАЦИИ НА ЭКРАН");
-        textView.setText(oldNumber);
+        textView.setText(calculator.sb.toString());
     }
-
 }
